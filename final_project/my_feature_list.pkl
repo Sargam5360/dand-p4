@@ -1,0 +1,11 @@
+(lp0
+S'poi'
+p1
+aS'total_stock_value'
+p2
+aS'restricted_stock_deferred'
+p3
+ag2
+aS'bonus'
+p4
+a.
