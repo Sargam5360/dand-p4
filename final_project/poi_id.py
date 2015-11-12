@@ -5,6 +5,7 @@ sys.path.append("../tools/")
 
 from feature_format import featureFormat, targetFeatureSplit
 from tester import test_classifier, dump_classifier_and_data
+from sklearn.feature_selection import SelectKBest
 
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
@@ -26,13 +27,31 @@ for person, features in data_dict.iteritems():
 			except Exception, e:
 				meaningful_features_num[k] = 1
 
-pprint(sorted(meaningful_features_num.items(), key=lambda x: -x[1]))
+# pprint(sorted(meaningful_features_num.items(), key=lambda x: -x[1]))
+
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
 data_dict.pop('FUGH JOHN L') #salary is NaN
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
 ### Task 3: Create new feature(s)
+all_features_list = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 
+					'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 
+					'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 
+					'restricted_stock', 'director_fees']
+
+k = 10
+data = featureFormat(data_dict, all_features_list)
+labels, features = targetFeatureSplit(data)
+
+k_best = SelectKBest(k=k)
+k_best.fit(features, labels)
+
+unsorted_pair_list = zip(all_features_list[1:], k_best.scores_)
+sorted_pair_list = sorted(unsorted_pair_list, key=lambda x: x[1], reverse=True)
+k_best_features = [pair for pair in sorted_pair_list]
+pprint(k_best_features)
+
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
 
