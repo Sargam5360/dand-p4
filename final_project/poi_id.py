@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-import sys
-import pickle
+import sys, pickle
 sys.path.append("../tools/")
 
 from feature_format import featureFormat, targetFeatureSplit
@@ -14,7 +13,19 @@ features_list = ['poi', 'total_stock_value', 'restricted_stock_deferred', 'total
 
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
-# print data_dict['SKILLING JEFFREY K'].keys()
+
+### Count valid values
+meaningful_features_num = {} 
+from pprint import pprint
+for person, features in data_dict.iteritems():
+	for k, v in features.iteritems():
+		if v != "NaN":
+			try:
+				meaningful_features_num[k] += 1
+			except Exception, e:
+				meaningful_features_num[k] = 1
+
+pprint(meaningful_features_num)
 
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
@@ -34,7 +45,6 @@ labels, features = targetFeatureSplit(data)
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
 from sklearn.pipeline import Pipeline
-from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
 estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
