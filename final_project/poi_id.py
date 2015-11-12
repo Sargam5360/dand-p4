@@ -16,6 +16,7 @@ data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
 
 ### Count valid values
 meaningful_features_num = {} 
+print "Total Number : {0}".format(len(data_dict.keys()))
 from pprint import pprint
 for person, features in data_dict.iteritems():
 	for k, v in features.iteritems():
