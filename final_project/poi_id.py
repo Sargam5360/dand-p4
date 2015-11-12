@@ -29,6 +29,8 @@ for person, features in data_dict.iteritems():
 pprint(sorted(meaningful_features_num.items(), key=lambda x: -x[1]))
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
+data_dict.pop('FUGH JOHN L') #salary is NaN
+data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
 ### Task 3: Create new feature(s)
 ### Store to my_dataset for easy export below.
