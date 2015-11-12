@@ -25,8 +25,7 @@ for person, features in data_dict.iteritems():
 			except Exception, e:
 				meaningful_features_num[k] = 1
 
-pprint(meaningful_features_num)
-
+pprint(sorted(meaningful_features_num.items(), key=lambda x: -x[1]))
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
 
