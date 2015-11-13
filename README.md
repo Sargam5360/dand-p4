@@ -2,10 +2,21 @@ Identify Fraud from Enron Email
 ========================================================
 by Yoon-gu Hwang, November 12, 2015
 
-## Question 1 ##
+## Overview ##
+In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives. In this project, you will play detective, and put your new skills to use by building a person of interest identifier based on financial and email data made public as a result of the Enron scandal. To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which means individuals who were indicted, reached a settlement or plea deal with the government, or testified in exchange for prosecution immunity.
+
+## QnA ##
+### Question 1 ###
 **Summarize for us the goal of this project and how machine learning is useful in trying to accomplish it. As part of your answer, give some background on the dataset and how it can be used to answer the project question. Were there any outliers in the data when you got it, and how did you handle those?  [relevant rubric items: “data exploration”, “outlier investigation”]**
 
-The dataset have total 146 items.
+The goal of this project is to use the email and financial data to identify fraud, **person of interest**(POI).
+The dataset has total 146 people information including their name. Each person information data contains 21 features(poi label + 14 financial + 6 email).
+There are 18 POIs and 128 non-POIs.
+
+Looking carefully the dataset, I found 3 outliers as followings and deleted them.
+ - `TOTAL` : Just total information of dataset
+ - `FUGH JOHN L` : his salary is `NaN`
+ - `THE TRAVEL AGENCY IN THE PARK` : Not a person
 
 |name|# of features|
 |:---|----:|
@@ -31,6 +42,9 @@ The dataset have total 146 items.
 |director_fees| 17|
 |loan_advances| 4|
 
+### Question 2 ###
+**What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]**
+
 |name|score|
 |:---|----:|
 |exercised_stock_options| 24.541175342601967|
@@ -48,17 +62,14 @@ The dataset have total 146 items.
 |deferral_payments| 0.23026270434011689|
 |restricted_stock_deferred| 0.066023245366887376|
 
-## Question 2 ##
-**What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]**
-
-## Question 3 ##
+### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
 
 
-## Question 5 ##
+### Question 5 ###
 **What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]**
 
-## Question 6 ##
+### Question 6 ###
 **Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]**
 
 
