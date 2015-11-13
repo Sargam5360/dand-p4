@@ -25,12 +25,12 @@ meaningful_features_num = {}
 print "Total Number : {0}".format(len(data_dict.keys()))
 from pprint import pprint
 for person, features in data_dict.iteritems():
-	for k, v in features.iteritems():
-		if v != "NaN":
-			try:
-				meaningful_features_num[k] += 1
-			except Exception, e:
-				meaningful_features_num[k] = 1
+    for k, v in features.iteritems():
+        if v != "NaN":
+            try:
+                meaningful_features_num[k] += 1
+            except Exception, e:
+                meaningful_features_num[k] = 1
 
 # pprint(sorted(meaningful_features_num.items(), key=lambda x: x[1], reverse=True))
 
@@ -41,14 +41,14 @@ data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
 ### Task 3: Create new feature(s)
 all_features_list = [ # financial
-					'poi', 'salary', 'deferral_payments', 'total_payments', 'loan_advances', 
-					'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 
-					'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 
-					'restricted_stock', 'director_fees',
-					# email
-					'to_messages', 'from_poi_to_this_person', 'from_messages', 
-					'from_this_person_to_poi', 'shared_receipt_with_poi'
-					]
+                    'poi', 'salary', 'deferral_payments', 'total_payments', 'loan_advances', 
+                    'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 
+                    'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 
+                    'restricted_stock', 'director_fees',
+                    # email
+                    'to_messages', 'from_poi_to_this_person', 'from_messages', 
+                    'from_this_person_to_poi', 'shared_receipt_with_poi'
+                    ]
 
 k = len(all_features_list) - 1
 data = featureFormat(data_dict, all_features_list)
@@ -110,33 +110,35 @@ labels, features = targetFeatureSplit(data)
 
 RANDOM_STATE = 87
 
-clf_list = [
-    DecisionTreeClassifier(random_state=RANDOM_STATE),
-    RandomForestClassifier(random_state=RANDOM_STATE),
-    LogisticRegression(random_state=RANDOM_STATE),
-    SGDClassifier(random_state=RANDOM_STATE),
- #    Pipeline(estimators),
-	# GaussianNB(),
-]
+# clf_list = [
+#     DecisionTreeClassifier(random_state=RANDOM_STATE),
+#     RandomForestClassifier(random_state=RANDOM_STATE),
+#     LogisticRegression(random_state=RANDOM_STATE),
+#     SGDClassifier(random_state=RANDOM_STATE),
+#  #    Pipeline(estimators),
+#   # GaussianNB(),
+# ]
 
-params_list = [
-    {
-        'criterion': ['gini', 'entropy'],
-        'min_samples_split': range(2, 5),
-    },
-    {
-        'criterion': ['entropy', 'gini'],
-        'min_samples_split': range(2, 5),
-    },
-    {
-        'penalty': ['l1', 'l2'],
-        'C': [1., 100., 1000.],
-    },
-    {
-        'loss': ['hinge', 'log'],
-        'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
-    },
-]
+# params_list = [
+#     {
+#         'criterion': ['gini', 'entropy'],
+#         'min_samples_split': range(2, 5),
+#     },
+#     {
+#         'criterion': ['entropy', 'gini'],
+#         'min_samples_split': range(2, 5),
+#     },
+#     {
+#         'penalty': ['l1', 'l2'],
+#         'C': [1., 100., 1000.],
+#     },
+#     {
+#         'loss': ['hinge', 'log'],
+#         'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
+#     },
+# ]
+
+clf = DecisionTreeClassifier(criterion='gini', min_samples_split=2, random_state=RANDOM_STATE)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
@@ -147,8 +149,10 @@ params_list = [
 # for clf, params in zip(clf_list, params_list):
 #     clf = GridSearchCV(clf, params, scoring='f1')
 #     test_classifier(clf, my_dataset, features_list, folds=1000)
-
+test_classifier(clf, my_dataset, features_list, folds=1000)
+pprint(zip(features_list[1:], clf.feature_importances_))
+pprint(sorted(zip(features_list[1:], clf.feature_importances_), key=lambda x: x[1], reverse=True))
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
 
-# dump_classifier_and_data(clf, my_dataset, features_list)
+dump_classifier_and_data(clf, my_dataset, features_list)

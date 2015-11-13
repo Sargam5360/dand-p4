@@ -76,6 +76,30 @@ Also, I created 2 new features, `total_incentive` and `total_income`.
 - `total_income` : `salary` + `total_stock_value`
 
 
+When I used `DecisionTree`, its importance analysis is shown below.
+
+|name|importance|
+|:----|----:|
+|total_payments|, 0.19188250750750746|
+|total_stock_value|, 0.1678427419354839|
+|expenses|, 0.14080773955773962|
+|other|, 0.1391360020187172|
+|from_messages|, 0.12792167167167171|
+|bonus|, 0.095879313453238135|
+|from_this_person_to_poi|, 0.076939183014801155|
+|salary|, 0.05959084084084084|
+|exercised_stock_options|, 0.0|
+|deferred_income|, 0.0|
+|long_term_incentive|, 0.0|
+|restricted_stock|, 0.0|
+|shared_receipt_with_poi|, 0.0|
+|loan_advances|, 0.0|
+|from_poi_to_this_person|, 0.0|
+|director_fees|, 0.0|
+|to_messages|, 0.0|
+|deferral_payments|, 0.0|
+|restricted_stock_deferred|, 0.0|
+
 ### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
 
