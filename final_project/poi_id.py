@@ -49,8 +49,9 @@ k_best.fit(features, labels)
 
 unsorted_pair_list = zip(all_features_list[1:], k_best.scores_)
 sorted_pair_list = sorted(unsorted_pair_list, key=lambda x: x[1], reverse=True)
-k_best_features = [pair for pair in sorted_pair_list]
-pprint(k_best_features)
+features_list = [pair[0] for pair in sorted_pair_list]
+
+features_list = ['poi'] + features_list
 
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
