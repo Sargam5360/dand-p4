@@ -71,9 +71,9 @@ labels, features = targetFeatureSplit(data)
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
-estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-clf = Pipeline(estimators)
-clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
+# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
+# clf = Pipeline(estimators)
+# clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
 
 RANDOM_STATE = 87
 
@@ -83,8 +83,8 @@ clf_list = [
     RandomForestClassifier(random_state=RANDOM_STATE),
     LogisticRegression(random_state=RANDOM_STATE),
     SGDClassifier(random_state=RANDOM_STATE),
-    Pipeline(estimators),
-	GaussianNB(),
+ #    Pipeline(estimators),
+	# GaussianNB(),
 ]
 
 params_list = [
@@ -104,8 +104,8 @@ params_list = [
         'loss': ['hinge', 'log'],
         'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
     },
-    {},
-    {}
+    # {},
+    # {}
 ]
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
