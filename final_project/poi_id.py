@@ -9,14 +9,14 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.grid_search import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import LogisticRegression, SGDClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.naive_bayes import GaussianNB
+from sklearn.decomposition import PCA
 
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-features_list = ['poi', 'total_stock_value', 'restricted_stock_deferred', 'total_stock_value', 'bonus'] # You will need to use more features
-
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
 
@@ -71,14 +71,11 @@ labels, features = targetFeatureSplit(data)
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
-# from sklearn.pipeline import Pipeline
-# from sklearn.naive_bayes import GaussianNB
-# from sklearn.decomposition import PCA
-# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-# clf = Pipeline(estimators)
-# clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
+estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
+clf = Pipeline(estimators)
+clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
 
-RANDOM_STATE = 10000
+RANDOM_STATE = 87
 
 target_metric = 'f1'
 clf_list = [
@@ -86,6 +83,8 @@ clf_list = [
     RandomForestClassifier(random_state=RANDOM_STATE),
     LogisticRegression(random_state=RANDOM_STATE),
     SGDClassifier(random_state=RANDOM_STATE),
+    Pipeline(estimators),
+	GaussianNB(),
 ]
 
 params_list = [
@@ -105,6 +104,8 @@ params_list = [
         'loss': ['hinge', 'log'],
         'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
     },
+    {},
+    {}
 ]
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
