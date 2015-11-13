@@ -35,7 +35,7 @@ data_dict.pop('FUGH JOHN L') #salary is NaN
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
 ### Task 3: Create new feature(s)
-all_features_list = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 
+all_features_list = ['poi', 'salary', 'deferral_payments', 'total_payments', 'loan_advances', 
 					'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 
 					'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 
 					'restricted_stock', 'director_fees']
