@@ -110,35 +110,13 @@ labels, features = targetFeatureSplit(data)
 
 RANDOM_STATE = 87
 
-# clf_list = [
-#     DecisionTreeClassifier(random_state=RANDOM_STATE),
-#     RandomForestClassifier(random_state=RANDOM_STATE),
-#     LogisticRegression(random_state=RANDOM_STATE),
-#     SGDClassifier(random_state=RANDOM_STATE),
-#  #    Pipeline(estimators),
-#   # GaussianNB(),
-# ]
-
-# params_list = [
-#     {
-#         'criterion': ['gini', 'entropy'],
-#         'min_samples_split': range(2, 5),
-#     },
-#     {
-#         'criterion': ['entropy', 'gini'],
-#         'min_samples_split': range(2, 5),
-#     },
-#     {
-#         'penalty': ['l1', 'l2'],
-#         'C': [1., 100., 1000.],
-#     },
-#     {
-#         'loss': ['hinge', 'log'],
-#         'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
-#     },
-# ]
-
-clf = DecisionTreeClassifier(criterion='gini', min_samples_split=2, random_state=RANDOM_STATE)
+clf_list = [
+    DecisionTreeClassifier(random_state=RANDOM_STATE),
+    GaussianNB(),
+    LogisticRegression(random_state=RANDOM_STATE),
+    SGDClassifier(random_state=RANDOM_STATE),
+    RandomForestClassifier(random_state=RANDOM_STATE),
+    ]
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
@@ -146,12 +124,9 @@ clf = DecisionTreeClassifier(criterion='gini', min_samples_split=2, random_state
 ### shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-# for clf, params in zip(clf_list, params_list):
-#     clf = GridSearchCV(clf, params, scoring='f1')
-#     test_classifier(clf, my_dataset, features_list, folds=1000)
-test_classifier(clf, my_dataset, features_list, folds=1000)
-pprint(zip(features_list[1:], clf.feature_importances_))
-pprint(sorted(zip(features_list[1:], clf.feature_importances_), key=lambda x: x[1], reverse=True))
+for clf in clf_list:
+    test_classifier(clf, my_dataset, features_list, folds=1000)
+
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
 
