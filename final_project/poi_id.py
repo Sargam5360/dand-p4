@@ -50,7 +50,7 @@ all_features_list = [ # financial
 					'from_this_person_to_poi', 'shared_receipt_with_poi'
 					]
 
-k = 10
+k = len(all_features_list) - 1
 data = featureFormat(data_dict, all_features_list)
 labels, features = targetFeatureSplit(data)
 

@@ -45,6 +45,8 @@ Looking carefully the dataset, I found 3 outliers as followings and deleted them
 ### Question 2 ###
 **What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]**
 
+With `SelectKBest` in `sklearn`, I investigate scores of features and I attached the table.
+
 |name|score|
 |:---|----:|
 |exercised_stock_options| 24.541175342601967|
@@ -55,12 +57,19 @@ Looking carefully the dataset, I found 3 outliers as followings and deleted them
 |long_term_incentive| 9.7721035384082544|
 |restricted_stock| 9.0790766616708698|
 |total_payments| 8.6727512066131069|
+|shared_receipt_with_poi| 8.4326354230246814|
 |loan_advances| 7.1253824688830685|
 |expenses| 5.9545442921972933|
+|from_poi_to_this_person| 5.1422191945069704|
 |other| 4.1288734042047182|
+|from_this_person_to_poi| 2.3388361146462624|
 |director_fees| 2.1453342495720547|
+|to_messages| 1.5942560277180795|
 |deferral_payments| 0.23026270434011689|
+|from_messages| 0.1753832041587958|
 |restricted_stock_deferred| 0.066023245366887376|
+
+I did not choose features whose score is below 2.00, i.e., `to_messages`, `deferral_payments`, `from_messages`, `restricted_stock_deferred`.
 
 ### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
