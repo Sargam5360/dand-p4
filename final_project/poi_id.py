@@ -6,6 +6,11 @@ sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 from tester import test_classifier, dump_classifier_and_data
 from sklearn.feature_selection import SelectKBest
+from sklearn.grid_search import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import SGDClassifier
 
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
@@ -66,13 +71,41 @@ labels, features = targetFeatureSplit(data)
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
-from sklearn.pipeline import Pipeline
-from sklearn.naive_bayes import GaussianNB
-from sklearn.decomposition import PCA
-estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-clf = Pipeline(estimators)
-
+# from sklearn.pipeline import Pipeline
+# from sklearn.naive_bayes import GaussianNB
+# from sklearn.decomposition import PCA
+# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
+# clf = Pipeline(estimators)
 # clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
+
+RANDOM_STATE = 10000
+
+target_metric = 'f1'
+clf_list = [
+    DecisionTreeClassifier(random_state=RANDOM_STATE),
+    RandomForestClassifier(random_state=RANDOM_STATE),
+    LogisticRegression(random_state=RANDOM_STATE),
+    SGDClassifier(random_state=RANDOM_STATE),
+]
+
+params_list = [
+    {
+        'criterion': ['gini', 'entropy'],
+        'min_samples_split': range(2, 5),
+    },
+    {
+        'criterion': ['entropy', 'gini'],
+        'min_samples_split': range(2, 5),
+    },
+    {
+        'penalty': ['l1', 'l2'],
+        'C': [1., 100., 1000.],
+    },
+    {
+        'loss': ['hinge', 'log'],
+        'alpha': [1e-4, 1e-3, 1e-2, 1e-1],
+    },
+]
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
@@ -80,7 +113,9 @@ clf = Pipeline(estimators)
 ### shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-test_classifier(clf, my_dataset, features_list)
+for clf, params in zip(clf_list, params_list):
+    clf = GridSearchCV(clf, params, scoring=target_metric)
+    test_classifier(clf, my_dataset, features_list, folds=1000)
 
 ### Dump your classifier, dataset, and features_list so 
 ### anyone can run/check your results.
