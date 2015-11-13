@@ -60,9 +60,36 @@ k_best.fit(features, labels)
 unsorted_pair_list = zip(all_features_list[1:], k_best.scores_)
 sorted_pair_list = sorted(unsorted_pair_list, key=lambda x: x[1], reverse=True)
 features_list = [pair[0] for pair in sorted_pair_list]
-pprint([pair for pair in sorted_pair_list])
-from pprint import pprint
+# pprint([pair for pair in sorted_pair_list])
 features_list = ['poi'] + features_list
+
+# new feature : total_income
+fields = ['salary', 'total_stock_value']
+for record in data_dict:
+   person = data_dict[record]
+   is_valid = True
+   for field in fields:
+       if person[field] == 'NaN':
+           is_valid = False
+   if is_valid:
+       person['total_income'] = sum([person[field] for field in fields])
+   else:
+       person['total_income'] = 'NaN'
+all_features_list += ['total_income']
+
+# new feature : total_income
+fields = ['bonus', 'long_term_incentive']
+for record in data_dict:
+   person = data_dict[record]
+   is_valid = True
+   for field in fields:
+       if person[field] == 'NaN':
+           is_valid = False
+   if is_valid:
+       person['total_incentive'] = sum([person[field] for field in fields])
+   else:
+       person['total_incentive'] = 'NaN'
+all_features_list += ['total_incentive']
 
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
