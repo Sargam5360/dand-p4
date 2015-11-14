@@ -20,6 +20,14 @@ from sklearn.decomposition import PCA
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
 
+features_list = ['poi', 
+				 'exercised_stock_options', 'total_stock_value', # Top 2
+				 'bonus', 'salary', # Top 4
+				 # 'deferred_income', 'long_term_incentive', # Top 6
+				 # 'restricted_stock', 'total_payments', # Top 8
+				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
+				 ]
+
 ### Count valid values
 meaningful_features_num = {} 
 print "Total Number : {0}".format(len(data_dict.keys()))
@@ -59,9 +67,7 @@ k_best.fit(features, labels)
 
 unsorted_pair_list = zip(all_features_list[1:], k_best.scores_)
 sorted_pair_list = sorted(unsorted_pair_list, key=lambda x: x[1], reverse=True)
-features_list = [pair[0] for pair in sorted_pair_list]
 # pprint([pair for pair in sorted_pair_list])
-features_list = ['poi'] + features_list
 
 # new feature : total_income
 fields = ['salary', 'total_stock_value']
@@ -104,19 +110,11 @@ labels, features = targetFeatureSplit(data)
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
-# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-# clf = Pipeline(estimators)
-# clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
+estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
+clf = Pipeline(estimators)
+clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
 
 RANDOM_STATE = 87
-
-clf_list = [
-    DecisionTreeClassifier(random_state=RANDOM_STATE),
-    GaussianNB(),
-    LogisticRegression(random_state=RANDOM_STATE),
-    SGDClassifier(random_state=RANDOM_STATE),
-    RandomForestClassifier(random_state=RANDOM_STATE),
-    ]
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
@@ -124,8 +122,7 @@ clf_list = [
 ### shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-for clf in clf_list:
-    test_classifier(clf, my_dataset, features_list, folds=1000)
+test_classifier(clf, my_dataset, features_list, folds=1000)
 
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
