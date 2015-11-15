@@ -25,8 +25,8 @@ features_list = ['poi',
 				 'bonus', 'salary', # Top 4
 				 'deferred_income', 'long_term_incentive', # Top 6
 				 'restricted_stock', # Top 7
-				 # 'total_payments', # Top 8
-				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
+				 'total_payments', # Top 8
+				 'shared_receipt_with_poi', 'loan_advances', # Top 10
 				 ]
 
 ### Count valid values
@@ -100,6 +100,10 @@ all_features_list += ['total_incentive']
 
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
+
+# gnb_clf = GaussianNB()
+# for k in range(2,len(features_list)):
+# 	test_classifier(gnb_clf, my_dataset, features_list[0:k], folds=1000)
 
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)

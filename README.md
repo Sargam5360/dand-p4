@@ -76,6 +76,19 @@ Also, I created 2 new features, `total_incentive` and `total_income`.
 - `total_incentive` : `bonus` + `long_term_incentive`
 - `total_income` : `salary` + `total_stock_value`
 
+As table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple `GaussianNB` classifer.
+
+| # of features | accuracy | precission| recall |
+|---------------|----------|-----------|--------|
+| 1 			| 0.82909  | 0.56608   | 0.25700|
+| 2 			| 0.83962  | 0.46275   | 0.26400|
+| 3 			| 0.84077  | 0.47559   | 0.34100|
+| 4 			| 0.85185  | 0.52782   | 0.35100|
+| 5 			| 0.85636  | 0.49639   | 0.37800|
+| 6 			| 0.84979  | 0.46680   | 0.36200|
+| 7 			| 0.85021  | 0.47004   | 0.38050|
+| 8 			| 0.84040  | 0.37356   | 0.29100|
+| 9 			| 0.83580  | 0.35719   | 0.28950|
 
 When I used `DecisionTree`, its importance analysis is shown below.
 
