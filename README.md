@@ -117,6 +117,13 @@ When I used `DecisionTree`, its importance analysis is shown below.
 ### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
 
+| algorithm								| accuracy | precission| recall |
+|---------------------------------------|----------|-----------|--------|
+| DecisionTreeClassifier				| 0.81293  | 0.29205   | 0.28300|
+| StandardScaler + LogisticRegression	| 0.85360  | 0.34295   | 0.10700|
+| GaussianNB							| 0.81927  | 0.31280   | 0.29700|
+| PCA + GaussianNB						| 0.84467  | 0.37705   | 0.25300|
+
 
 ### Question 5 ###
 **What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]**
