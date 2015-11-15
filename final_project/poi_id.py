@@ -167,9 +167,9 @@ clf = GridSearchCV(gnb_pipeline, gnb_pipeline_parameters, scoring=make_scorer(my
 clf.fit(features, labels)
 
 
-lr_clf =  clf.best_estimator_
+gnb_clf =  clf.best_estimator_
 
-test_classifier(lr_clf, my_dataset, features_list, folds=1000)
+test_classifier(gnb_clf, my_dataset, features_list, folds=1000)
 
 # LogisticRegression
 lr_pipeline_parameters = {
@@ -177,13 +177,13 @@ lr_pipeline_parameters = {
 						'clf__tol' : 10.0 ** np.arange(-12, 15, 2),
 						'clf__penalty' : ('l1', 'l2'),
 						}
-clf = GridSearchCV(lr_pipeline, lr_pipeline_parameters, scoring=make_scorer(my_score))
-clf.fit(features, labels)
+lr_clf = GridSearchCV(lr_pipeline, lr_pipeline_parameters, scoring=make_scorer(my_score))
+lr_clf.fit(features, labels)
 
-test_classifier(clf.best_estimator_, my_dataset, features_list, folds=1000)
+test_classifier(lr_clf.best_estimator_, my_dataset, features_list, folds=1000)
 
 ### Dump your classifier, dataset, and features_list so 
 ### anyone can run/check your results.
 
-clf = clf.best_estimator_
+clf = lr_clf.best_estimator_
 dump_classifier_and_data(clf, my_dataset, features_list)
