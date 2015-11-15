@@ -24,7 +24,8 @@ features_list = ['poi',
 				 'exercised_stock_options', 'total_stock_value', # Top 2
 				 'bonus', 'salary', # Top 4
 				 'deferred_income', 'long_term_incentive', # Top 6
-				 # 'restricted_stock', 'total_payments', # Top 8
+				 'restricted_stock', # Top 7
+				 # 'total_payments', # Top 8
 				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
 				 ]
 
@@ -109,20 +110,21 @@ labels, features = targetFeatureSplit(data)
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
-# LogisticRegression
 RANDOM_STATE = 87
 
+dt_clf = DecisionTreeClassifier(random_state=42)
+test_classifier(dt_clf, my_dataset, features_list, folds=1000)
+
+# LogisticRegression
 lr_pipeline = Pipeline(steps=[
         ('scaler', StandardScaler()),
         ('clf', LogisticRegression(tol=0.001, random_state=RANDOM_STATE))
 ])
 
-lr_pipeline.fit(features, labels)
 test_classifier(lr_pipeline, my_dataset, features_list, folds=1000)
 
 # Gaussian NB 
 gnb_clf = GaussianNB()
-gnb_clf.fit(features, labels)
 test_classifier(gnb_clf, my_dataset, features_list, folds=1000)
 
 # Gaussian NB + PCA
@@ -139,17 +141,18 @@ test_classifier(gnb_pipeline, my_dataset, features_list, folds=1000)
 ### Because of the small size of the dataset, the script uses stratified
 ### shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-# I want to classifier whose (precision, recall) are high at the same time.
+
 from sklearn.metrics import make_scorer, precision_recall_fscore_support
+# I want to classifier whose (precision, recall) are high at the same time.
 def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
 	p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
 	                                                 labels=labels,
 	                                                 pos_label=pos_label,
 	                                                 average=average,
 	                                                 sample_weight=sample_weight)
-	if p < 0.3 or r < 0.3:
+	if p < 0.3 or r < 0.3: # To achieve better than 0.3 precision and recall
 		return 0.
-	return ( p + r ) / 2.
+	return ( p + r ) / 2. # Normalize mix score
 
 # LogisticRegression
 lr_pipeline_parameters = {
