@@ -46,6 +46,7 @@ Looking carefully the dataset, I found 3 outliers as followings and deleted them
 **What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]**
 
 With `SelectKBest` in `sklearn`, I investigate scores of features and I attached the table.
+
 |name|score|
 |:---|----:|
 |exercised_stock_options| 24.541175342601967|
@@ -80,25 +81,25 @@ When I used `DecisionTree`, its importance analysis is shown below.
 
 |name|importance|
 |:----|----:|
-|total_payments|, 0.19188250750750746|
-|total_stock_value|, 0.1678427419354839|
-|expenses|, 0.14080773955773962|
-|other|, 0.1391360020187172|
-|from_messages|, 0.12792167167167171|
-|bonus|, 0.095879313453238135|
-|from_this_person_to_poi|, 0.076939183014801155|
-|salary|, 0.05959084084084084|
-|exercised_stock_options|, 0.0|
-|deferred_income|, 0.0|
-|long_term_incentive|, 0.0|
-|restricted_stock|, 0.0|
-|shared_receipt_with_poi|, 0.0|
-|loan_advances|, 0.0|
-|from_poi_to_this_person|, 0.0|
-|director_fees|, 0.0|
-|to_messages|, 0.0|
-|deferral_payments|, 0.0|
-|restricted_stock_deferred|, 0.0|
+|total_payments| 0.191|
+|total_stock_value| 0.167|
+|expenses| 0.140|
+|other| 0.139|
+|from_messages| 0.127|
+|bonus| 0.095|
+|from_this_person_to_poi| 0.076|
+|salary| 0.059|
+|exercised_stock_options| 0.000|
+|deferred_income| 0.000|
+|long_term_incentive| 0.000|
+|restricted_stock| 0.000|
+|shared_receipt_with_poi| 0.000|
+|loan_advances| 0.000|
+|from_poi_to_this_person| 0.000|
+|director_fees| 0.000|
+|to_messages| 0.000|
+|deferral_payments| 0.000|
+|restricted_stock_deferred| 0.000|
 
 ### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
@@ -114,3 +115,8 @@ When I used `DecisionTree`, its importance analysis is shown below.
 ## Conclusion ##
 
 ## References ##
+	* http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+	* http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html
+	* http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py
+	* http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values
+	* http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html

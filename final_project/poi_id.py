@@ -2,7 +2,7 @@
 
 import sys, pickle
 sys.path.append("../tools/")
-
+import numpy as np
 from feature_format import featureFormat, targetFeatureSplit
 from tester import test_classifier, dump_classifier_and_data
 from sklearn.feature_selection import SelectKBest
@@ -109,22 +109,40 @@ labels, features = targetFeatureSplit(data)
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
+from sklearn.metrics import make_scorer, precision_recall_fscore_support
+def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
+	p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
+	                                                 labels=labels,
+	                                                 pos_label=pos_label,
+	                                                 average=average,
+	                                                 warn_for=('precision',),
+	                                                 sample_weight=sample_weight)
+	if p < 0.3 or r < 0.3:
+		return 0.
+	return ( p + r ) / 2.
 
-estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-clf = Pipeline(estimators)
-clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
-
+# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
+# pipeline = Pipeline(estimators)
+lr = LogisticRegression(class_weight='balanced', penalty='l2')
+parameters = {'C':10.**np.arange(-20, 20,2), 'tol' : 10.**np.arange(-20, 20,2)}
+clf = GridSearchCV(lr, parameters, scoring=make_scorer(my_score))
+clf.fit(features, labels)
 RANDOM_STATE = 87
 
+myclf =  clf.best_estimator_
+print clf.best_params_
+
+test_classifier(myclf, my_dataset, features_list, folds=1000)
+# pprint(clf.grid_scores_)
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
 ### Because of the small size of the dataset, the script uses stratified
 ### shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-test_classifier(clf, my_dataset, features_list, folds=1000)
+# test_classifier(clf, my_dataset, features_list, folds=1000)
 
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
 
-dump_classifier_and_data(clf, my_dataset, features_list)
+# dump_classifier_and_data(clf, my_dataset, features_list)
