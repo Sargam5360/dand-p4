@@ -78,7 +78,7 @@ Also, I created 2 new features, `total_incentive` and `total_income`.
 
 As table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple `GaussianNB` classifer.
 
-| # of features | accuracy | precission| recall |
+| # of features | accuracy | precision| recall |
 |:-------------:|---------:|----------:|-------:|
 | 1 			| 0.82909  | 0.56608   | 0.25700|
 | 2 			| 0.83962  | 0.46275   | 0.26400|
@@ -119,7 +119,7 @@ When I used `DecisionTree`, its importance analysis is shown below.
 
 I treid 4 algorithms to achieve maximum identification performance. The list of them shows below.
 
-| algorithm								| accuracy | precission| recall |
+| algorithm								| accuracy | precision| recall |
 |--------------------------------------:|:--------:|:---------:|:------:|
 | DecisionTreeClassifier				| 0.81293  | 0.29205   | 0.28300|
 | StandardScaler + LogisticRegression	| 0.85360  | 0.34295   | 0.10700|
@@ -155,9 +155,40 @@ Final parameter for me to be tuned. I can avoid tedious trails by using `GridSea
 ### Question 5 ###
 **What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]**
 
+Validation is the way to confirm the robustness of a classifier with given dataset and model. The class mistake is the over-fitting case. When a classifier is over-fitted, it cannot provide good performance on test dataset. Because the classifier is too much over-fitted to training dataset. We should consider balance between training data and test data.
+
+To avoid this problem, I extracted 10% of dataset for test set and the rest of dataset was used as training set. To split test set from given dataset, I used `StratifiedShuffleSplit`.
+
+I set a `RANDOM_STATE` to 87. I took 1000 times split and fit the traing dataset. This scheme is also used in `test_classifier()` in `tester.py`.
+
 ### Question 6 ###
 **Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]**
 
+I selected precision and recall as evaluation metrics. The definitions are followed.
+
+* precision : the number of true positives over the number of true positives plus the number of false positives.
+* recall : the number of true positives over the number of true positives plus the number of false negatives.
+
+In short, high precision is equivalent to low false alram, that means an algorithm is precise. High recall means that high true positive, that is, an algorithm can identify POI as many as possibile.
+
+| algorithm								| accuracy | precision| recall |
+|--------------------------------------:|:--------:|:---------:|:------:|
+| StandardScaler + LogisticRegression	| 0.85157  | 0.47869   | 0.43800|
+| PCA + GaussianNB						| 0.84893  | 0.46169   | 0.34650|
+
+I made my own score function, averaging precision and recall, then I passed it to `GridSearchCV`. So I could get the optimal parameter for the above 2 algorithms. 
+
+	from sklearn.metrics import make_scorer, precision_recall_fscore_support
+	# I want to classifier whose (precision, recall) are high at the same time.
+	def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
+		p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
+		                                                 labels=labels,
+		                                                 pos_label=pos_label,
+		                                                 average=average,
+		                                                 sample_weight=sample_weight)
+		if p < 0.3 or r < 0.3: # To achieve better than 0.3 precision and recall
+			return 0.
+		return ( p + r ) / 2. # Normalize mix score
 
 ## Conclusion ##
 
@@ -167,3 +198,4 @@ Final parameter for me to be tuned. I can avoid tedious trails by using `GridSea
  * http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py
  * http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values
  * http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html
+ * http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html
