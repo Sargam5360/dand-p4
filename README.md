@@ -128,8 +128,8 @@ When I used `DecisionTree`, its importance analysis is shown below.
 ## Conclusion ##
 
 ## References ##
-	* http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
-	* http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html
-	* http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py
-	* http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values
-	* http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html
+ * http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+ * http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html
+ * http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py
+ * http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values
+ * http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html
