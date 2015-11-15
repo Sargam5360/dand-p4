@@ -71,7 +71,7 @@ With `SelectKBest` in `sklearn`, I investigate scores of features and I attached
 
 I did not choose features whose score is below 2.00, i.e., `to_messages`, `deferral_payments`, `from_messages`, `restricted_stock_deferred`.
 
-Also, I created 2 new features, `total_incentive` and `total_income`.
+Also, I created 2 new features, `total_incentive` and `total_income`. The reason is that I think that the more someone get financial incentive, the higher probability that he/she could be POI. In the similar way, total income might be important factor to detect POI, because people related with fraud always are supposed to have huge incomes.
 
 - `total_incentive` : `bonus` + `long_term_incentive`
 - `total_income` : `salary` + `total_stock_value`

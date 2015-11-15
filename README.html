@@ -1212,7 +1212,7 @@ There are 18 POIs and 128 non-POIs.</p>
 </tbody>
 </table>
 <p>I did not choose features whose score is below 2.00, i.e., <code>to_messages</code>, <code>deferral_payments</code>, <code>from_messages</code>, <code>restricted_stock_deferred</code>.</p>
-<p>Also, I created 2 new features, <code>total_incentive</code> and <code>total_income</code>.</p>
+<p>Also, I created 2 new features, <code>total_incentive</code> and <code>total_income</code>. The reason is that I think that the more someone get financial incentive, the higher probability that he/she could be POI. In the similar way, total income might be important factor to detect POI, because people related with fraud always are supposed to have huge incomes.</p>
 <ul>
 <li><code>total_incentive</code> : <code>bonus</code> + <code>long_term_incentive</code></li>
 <li><code>total_income</code> : <code>salary</code> + <code>total_stock_value</code></li>
