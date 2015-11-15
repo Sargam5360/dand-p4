@@ -25,8 +25,8 @@ features_list = ['poi',
 				 'bonus', 'salary', # Top 4
 				 'deferred_income', 'long_term_incentive', # Top 6
 				 'restricted_stock', # Top 7
-				 'total_payments', # Top 8
-				 'shared_receipt_with_poi', 'loan_advances', # Top 10
+				 # 'total_payments', # Top 8
+				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
 				 ]
 
 ### Count valid values
@@ -159,6 +159,19 @@ def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_
 	return ( p + r ) / 2. # Normalize mix score
 
 # LogisticRegression
+gnb_pipeline_parameters = {
+            'pca__n_components' : [None] + range(3,8),
+            # 'pca__whiten' : [False, True]
+            }
+clf = GridSearchCV(gnb_pipeline, gnb_pipeline_parameters, scoring=make_scorer(my_score))
+clf.fit(features, labels)
+
+
+lr_clf =  clf.best_estimator_
+
+test_classifier(lr_clf, my_dataset, features_list, folds=1000)
+
+# LogisticRegression
 lr_pipeline_parameters = {
 						'clf__C' : 10.0 ** np.arange(-12, 15, 2),
 						'clf__tol' : 10.0 ** np.arange(-12, 15, 2),
@@ -167,12 +180,10 @@ lr_pipeline_parameters = {
 clf = GridSearchCV(lr_pipeline, lr_pipeline_parameters, scoring=make_scorer(my_score))
 clf.fit(features, labels)
 
-
-lr_clf =  clf.best_estimator_
-
-test_classifier(lr_clf, my_dataset, features_list, folds=1000)
+test_classifier(clf.best_estimator_, my_dataset, features_list, folds=1000)
 
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
 
-# dump_classifier_and_data(clf, my_dataset, features_list)
+clf = clf.best_estimator_
+dump_classifier_and_data(clf, my_dataset, features_list)
