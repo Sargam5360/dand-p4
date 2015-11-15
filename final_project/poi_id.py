@@ -109,7 +109,21 @@ labels, features = targetFeatureSplit(data)
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
+RANDOM_STATE = 87
 
+lr_pipeline = Pipeline(steps=[
+        ('scaler', StandardScaler()),
+        ('clf', LogisticRegression(tol=0.001, random_state=RANDOM_STATE))
+])
+
+lr_pipeline.fit(features, labels)
+test_classifier(lr_pipeline, my_dataset, features_list, folds=1000)
+
+### Task 5: Tune your classifier to achieve better than .3 precision and recall 
+### using our testing script.
+### Because of the small size of the dataset, the script uses stratified
+### shuffle split cross validation. For more info: 
+### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 # I want to classifier whose (precision, recall) are high at the same time.
 from sklearn.metrics import make_scorer, precision_recall_fscore_support
 def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
@@ -121,8 +135,6 @@ def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_
 	if p < 0.3 or r < 0.3:
 		return 0.
 	return ( p + r ) / 2.
-
-RANDOM_STATE = 87
 
 # LogisticRegression
 lr_pipeline = Pipeline(steps=[
@@ -139,18 +151,9 @@ clf = GridSearchCV(lr_pipeline, lr_pipeline_parameters, scoring=make_scorer(my_s
 clf.fit(features, labels)
 
 
-myclf =  clf.best_estimator_
-print clf.best_params_
+lr_clf =  clf.best_estimator_
 
-test_classifier(myclf, my_dataset, features_list, folds=1000)
-# pprint(clf.grid_scores_)
-### Task 5: Tune your classifier to achieve better than .3 precision and recall 
-### using our testing script.
-### Because of the small size of the dataset, the script uses stratified
-### shuffle split cross validation. For more info: 
-### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-
-# test_classifier(clf, my_dataset, features_list, folds=1000)
+test_classifier(lr_clf, my_dataset, features_list, folds=1000)
 
 # ### Dump your classifier, dataset, and features_list so 
 # ### anyone can run/check your results.
