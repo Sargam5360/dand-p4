@@ -137,8 +137,6 @@ gnb_pipeline = Pipeline(steps=[
         ('pca', PCA()),
         ('clf', GaussianNB())
 ])
-
-gnb_pipeline.fit(features, labels)
 test_classifier(gnb_pipeline, my_dataset, features_list, folds=1000)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
