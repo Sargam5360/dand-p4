@@ -109,6 +109,7 @@ labels, features = targetFeatureSplit(data)
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
+# LogisticRegression
 RANDOM_STATE = 87
 
 lr_pipeline = Pipeline(steps=[
@@ -118,6 +119,20 @@ lr_pipeline = Pipeline(steps=[
 
 lr_pipeline.fit(features, labels)
 test_classifier(lr_pipeline, my_dataset, features_list, folds=1000)
+
+# Gaussian NB 
+gnb_clf = GaussianNB()
+gnb_clf.fit(features, labels)
+test_classifier(gnb_clf, my_dataset, features_list, folds=1000)
+
+# Gaussian NB + PCA
+gnb_pipeline = Pipeline(steps=[
+        ('pca', PCA()),
+        ('clf', GaussianNB())
+])
+
+gnb_pipeline.fit(features, labels)
+test_classifier(gnb_pipeline, my_dataset, features_list, folds=1000)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
@@ -137,11 +152,6 @@ def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_
 	return ( p + r ) / 2.
 
 # LogisticRegression
-lr_pipeline = Pipeline(steps=[
-        ('scaler', StandardScaler()),
-        ('clf', LogisticRegression(tol=0.001, random_state=RANDOM_STATE))
-])
-
 lr_pipeline_parameters = {
 						'clf__C' : 10.0 ** np.arange(-12, 15, 2),
 						'clf__tol' : 10.0 ** np.arange(-12, 15, 2),
