@@ -190,7 +190,11 @@ I made my own score function, averaging precision and recall, then I passed it t
 			return 0.
 		return ( p + r ) / 2. # Normalize mix score
 
+The result of `GaussianNB` was awesome, because it had quite good performance even though I did nothing. But `LogisticRegression` is the best performance among trials I did. It had high value of precision and recall. This evaluation result is more balanced and higher values.
+
 ## Conclusion ##
+
+Final classifier is logistic regression since its performance is the best among many trials. In addition, its algorithm is specialized to binary classification. This is perfect story to identify fraud from Enron dataset. 
 
 ## References ##
  * http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
