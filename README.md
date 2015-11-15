@@ -79,7 +79,7 @@ Also, I created 2 new features, `total_incentive` and `total_income`.
 As table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple `GaussianNB` classifer.
 
 | # of features | accuracy | precission| recall |
-|---------------|----------|-----------|--------|
+|:-------------:|---------:|----------:|-------:|
 | 1 			| 0.82909  | 0.56608   | 0.25700|
 | 2 			| 0.83962  | 0.46275   | 0.26400|
 | 3 			| 0.84077  | 0.47559   | 0.34100|
@@ -117,12 +117,21 @@ When I used `DecisionTree`, its importance analysis is shown below.
 ### Question 3 ###
 **What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]**
 
+I treid 4 algorithms to achieve maximum identification performance. The list of them shows below.
+
 | algorithm								| accuracy | precission| recall |
-|---------------------------------------|----------|-----------|--------|
+|--------------------------------------:|:--------:|:---------:|:------:|
 | DecisionTreeClassifier				| 0.81293  | 0.29205   | 0.28300|
 | StandardScaler + LogisticRegression	| 0.85360  | 0.34295   | 0.10700|
 | GaussianNB							| 0.81927  | 0.31280   | 0.29700|
 | PCA + GaussianNB						| 0.84467  | 0.37705   | 0.25300|
+
+DecisionTree, GaussianNB, and PCA are covered in the class. So I tried to apply and check their performance. It was suprising that the simple `GaussianNB` had great performance without any trials and erros. 
+
+Logistic Regression is useful to binary classification(True/False) variables. This scheme is exactly what we want in this project. We have binary classification, POI or non-POI. So I ended up using this logistic regression algorithm.
+
+### Question 4 ###
+**What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well? How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier). [relevant rubric item: “tune the algorithm”]**
 
 
 ### Question 5 ###
