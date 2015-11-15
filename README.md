@@ -15,7 +15,7 @@ There are 18 POIs and 128 non-POIs.
 
 Looking carefully the dataset, I found 3 outliers as followings and deleted them.
  - `TOTAL` : Just total information of dataset
- - `FUGH JOHN L` : his salary is `NaN`
+ - `LOCKHART EUGENE E` : No information : All feature are 'NaN'.
  - `THE TRAVEL AGENCY IN THE PARK` : Not a person
 
 |name|# of features|

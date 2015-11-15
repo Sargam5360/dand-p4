@@ -46,7 +46,7 @@ for person, features in data_dict.iteritems():
 
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
-data_dict.pop('FUGH JOHN L') # salary is NaN
+data_dict.pop('LOCKHART EUGENE E') # salary is NaN
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
 ### Task 3: Create new feature(s)
