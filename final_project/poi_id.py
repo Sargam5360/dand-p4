@@ -117,7 +117,7 @@ labels, features = targetFeatureSplit(data)
 ### http://scikit-learn.org/stable/modules/pipeline.html
 RANDOM_STATE = 87
 
-dt_clf = DecisionTreeClassifier(random_state=42)
+dt_clf = DecisionTreeClassifier(random_state=RANDOM_STATE)
 test_classifier(dt_clf, my_dataset, features_list, folds=1000)
 
 # LogisticRegression

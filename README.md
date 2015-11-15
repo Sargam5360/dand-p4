@@ -164,11 +164,16 @@ Final parameter for me to be tuned. I can avoid tedious trails by using `GridSea
 ### Question 5 ###
 **What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]**
 
-Validation is the way to confirm the robustness of a classifier with given dataset and model. The class mistake is the over-fitting case. When a classifier is over-fitted, it cannot provide good performance on test dataset. Because the classifier is too much over-fitted to training dataset. We should consider balance between training data and test data.
+Validation is the way to confirm the robustness of a classifier with given dataset and model. The class mistake is the over-fitting case. When a classifier is over-fitted, it cannot provide good performance on test dataset. Because the classifier is too much over-fitted to training dataset. To avoid this problem, usually dataset is partitioned to three set, (train set, validation set, test set). However, it causes the number of samples to be drastically reduced. Therefore, the results can depend on a particular random choice for the pair of (train, validation) sets.
 
-To avoid this problem, I extracted 10% of dataset for test set and the rest of dataset was used as training set. To split test set from given dataset, I used `StratifiedShuffleSplit`.
+One of solutions is cross-validation. In this process, dataset except test set is split into k smaller sets(k-folds). Then, we iterate the following procedures. 
 
-I set a `RANDOM_STATE` to 87. I took 1000 times split and fit the traing dataset. This scheme is also used in `test_classifier()` in `tester.py`.
+ * A model is trained with (k-1) folds.
+ * the resulting model is validated on the remaining set(1 fold).
+
+By doing this procedures, we can have robust classifier. 
+
+I used `StratifiedShuffleSplit`. `StratifiedShuffleSplit` is a merged version of `ShuffleSpllit` and `StratifiedKFold`. First, samples are shuffled, then, make k stratified folds as `StratifiedKFold` does. I used 10% of dataset as test set, and 1000 folds. This scheme is also used in `test_classifier()` in `tester.py`.
 
 ### Question 6 ###
 **Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]**
