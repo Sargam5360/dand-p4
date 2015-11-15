@@ -158,7 +158,7 @@ def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_
 		return 0.
 	return ( p + r ) / 2. # Normalize mix score
 
-# LogisticRegression
+# PCA + GaussianNB
 gnb_pipeline_parameters = {
             'pca__n_components' : [None] + range(3,8),
             # 'pca__whiten' : [False, True]
@@ -182,8 +182,8 @@ clf.fit(features, labels)
 
 test_classifier(clf.best_estimator_, my_dataset, features_list, folds=1000)
 
-# ### Dump your classifier, dataset, and features_list so 
-# ### anyone can run/check your results.
+### Dump your classifier, dataset, and features_list so 
+### anyone can run/check your results.
 
 clf = clf.best_estimator_
 dump_classifier_and_data(clf, my_dataset, features_list)
