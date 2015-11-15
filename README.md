@@ -133,6 +133,24 @@ Logistic Regression is useful to binary classification(True/False) variables. Th
 ### Question 4 ###
 **What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well? How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier). [relevant rubric item: “tune the algorithm”]**
 
+Tuning parameters of an algorithm means the way to get the best algorithm performance with given dataset and model. If we don't do this process, we cannot get good performance and we might have worse performance than what we expected.
+
+In this project, I trid to tune several parameter sets with 2 algorithms(`LogisticRegression` and `PCA+GaussianNB`). `GaussianNB` had no parameter to be tuned, so I made a pipeline(`PCA` + `GaussianNB`) and tuned parameter of `PCA`.
+
+* `LogisticRegression`
+   * `penalty` : Used to specify the norm used in the penalization. The newton-cg and lbfgs solvers support only l2 penalties.
+   * `C` : Inverse of regularization strength; must be a positive float. Like in support vector machines, smaller values specify stronger regularization.
+   * `tol` : Tolerance for stopping criteria.
+* `PCA`
+   * `n_components` : Number of components to keep.
+
+Final parameter for me to be tuned. I can avoid tedious trails by using `GridSearchCV`.
+* `LogisticRegression`
+   * `penalty` : l2
+   * `C` : 1e-12
+   * `tol` : 1e-12
+* `PCA`
+   * `n_components` : None
 
 ### Question 5 ###
 **What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]**
