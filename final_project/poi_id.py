@@ -13,17 +13,17 @@ from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.naive_bayes import GaussianNB
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
-
 features_list = ['poi', 
 				 'exercised_stock_options', 'total_stock_value', # Top 2
 				 'bonus', 'salary', # Top 4
-				 # 'deferred_income', 'long_term_incentive', # Top 6
+				 'deferred_income', 'long_term_incentive', # Top 6
 				 # 'restricted_stock', 'total_payments', # Top 8
 				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
 				 ]
@@ -109,25 +109,35 @@ labels, features = targetFeatureSplit(data)
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
+
+# I want to classifier whose (precision, recall) are high at the same time.
 from sklearn.metrics import make_scorer, precision_recall_fscore_support
 def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
 	p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
 	                                                 labels=labels,
 	                                                 pos_label=pos_label,
 	                                                 average=average,
-	                                                 warn_for=('precision',),
 	                                                 sample_weight=sample_weight)
 	if p < 0.3 or r < 0.3:
 		return 0.
 	return ( p + r ) / 2.
 
-# estimators = [('reduce_dim', PCA()), ('nb', GaussianNB())]
-# pipeline = Pipeline(estimators)
-lr = LogisticRegression(class_weight='balanced', penalty='l2')
-parameters = {'C':10.**np.arange(-20, 20,2), 'tol' : 10.**np.arange(-20, 20,2)}
-clf = GridSearchCV(lr, parameters, scoring=make_scorer(my_score))
-clf.fit(features, labels)
 RANDOM_STATE = 87
+
+# LogisticRegression
+lr_pipeline = Pipeline(steps=[
+        ('scaler', StandardScaler()),
+        ('clf', LogisticRegression(tol=0.001, random_state=RANDOM_STATE))
+])
+
+lr_pipeline_parameters = {
+						'clf__C' : 10.0 ** np.arange(-12, 15, 2),
+						'clf__tol' : 10.0 ** np.arange(-12, 15, 2),
+						'clf__penalty' : ('l1', 'l2'),
+						}
+clf = GridSearchCV(lr_pipeline, lr_pipeline_parameters, scoring=make_scorer(my_score))
+clf.fit(features, labels)
+
 
 myclf =  clf.best_estimator_
 print clf.best_params_
