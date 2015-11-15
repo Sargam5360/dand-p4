@@ -1,6 +1,6 @@
 Identify Fraud from Enron Email
 ========================================================
-by Yoon-gu Hwang, November 12, 2015
+by Yoon-gu Hwang, November 15, 2015
 
 ## Overview ##
 In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives. In this project, you will play detective, and put your new skills to use by building a person of interest identifier based on financial and email data made public as a result of the Enron scandal. To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which means individuals who were indicted, reached a settlement or plea deal with the government, or testified in exchange for prosecution immunity.
@@ -76,7 +76,7 @@ Also, I created 2 new features, `total_incentive` and `total_income`.
 - `total_incentive` : `bonus` + `long_term_incentive`
 - `total_income` : `salary` + `total_stock_value`
 
-As table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple `GaussianNB` classifer.
+As the following table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple `GaussianNB` classifer.
 
 | # of features | accuracy | precision| recall |
 |:-------------:|---------:|----------:|-------:|
@@ -89,6 +89,15 @@ As table shows, with increasing features upto 7, overall evaluating metrics are 
 | 7 			| 0.85021  | 0.47004   | 0.38050|
 | 8 			| 0.84040  | 0.37356   | 0.29100|
 | 9 			| 0.83580  | 0.35719   | 0.28950|
+
+|# of features  				| accuracy|precision|recall |
+|-------------------------------|---------|---------|-------|
+|Top 7 features 				| 0.85021 |0.47004	|0.38050|
+|Top 7 features + 2 new features| 0.84671 |0.45866	|0.40500|
+
+By adding 2 new features, there is trade-off. I got higher recall value, but accuracy and precision became lower than before adding 2 new features.
+
+Each feature has variety range of values, so I need to normalize them. I used `StandardScaler` for fianl analysis by adding it to `Pipeline`.
 
 When I used `DecisionTree`, its importance analysis is shown below.
 

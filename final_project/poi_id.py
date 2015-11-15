@@ -27,6 +27,7 @@ features_list = ['poi',
 				 'restricted_stock', # Top 7
 				 # 'total_payments', # Top 8
 				 # 'shared_receipt_with_poi', 'loan_advances', # Top 10
+         # 'total_income', 'total_incentive', # new 2 features
 				 ]
 
 ### Count valid values
