@@ -211,9 +211,9 @@ The result of `GaussianNB` was awesome, because it had quite good performance ev
 Final classifier is logistic regression since its performance is the best among many trials. In addition, its algorithm is specialized to binary classification. This is perfect story to identify fraud from Enron dataset. 
 
 ## References ##
- * http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
- * http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html
- * http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py
- * http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values
- * http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html
- * http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html
+ * [sklearn.linear_model.LogisticRegression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+ * [sklearn.grid_search.GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html)
+ * [grid_search_text_feature_extraction](http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py)
+ * [Model Evalutation](http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values)
+ * [make_scorer](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html)
+ * [plot_precision_recall](http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)
