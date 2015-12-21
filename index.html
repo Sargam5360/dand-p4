@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Intro to Machine Learning by yoon-gu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Intro to Machine Learning</h1>
+      <h2 class="project-tagline">scikit-learn</h2>
+      <a href="https://github.com/yoon-gu/dand-p4" class="btn">View on GitHub</a>
+      <a href="https://github.com/yoon-gu/dand-p4/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/yoon-gu/dand-p4/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="identify-fraud-from-enron-email" class="anchor" href="#identify-fraud-from-enron-email" aria-hidden="true"><span class="octicon octicon-link"></span></a>Identify Fraud from Enron Email</h1>
+
+<p>by Yoon-gu Hwang, November 15, 2015</p>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives. In this project, you will play detective, and put your new skills to use by building a person of interest identifier based on financial and email data made public as a result of the Enron scandal. To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which means individuals who were indicted, reached a settlement or plea deal with the government, or testified in exchange for prosecution immunity.</p>
+
+<h2>
+<a id="qna" class="anchor" href="#qna" aria-hidden="true"><span class="octicon octicon-link"></span></a>QnA</h2>
+
+<h3>
+<a id="question-1" class="anchor" href="#question-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 1</h3>
+
+<p><strong>Summarize for us the goal of this project and how machine learning is useful in trying to accomplish it. As part of your answer, give some background on the dataset and how it can be used to answer the project question. Were there any outliers in the data when you got it, and how did you handle those?  [relevant rubric items: “data exploration”, “outlier investigation”]</strong></p>
+
+<p>The goal of this project is to use the email and financial data to identify fraud, <strong>person of interest</strong>(POI).
+The dataset has total 146 people information including their name. Each person information data contains 21 features(poi label + 14 financial + 6 email).
+There are 18 POIs and 128 non-POIs.</p>
+
+<p>Looking carefully the dataset, I found 3 outliers as followings and deleted them.</p>
+
+<ul>
+<li>
+<code>TOTAL</code> : Just total information of dataset</li>
+<li>
+<code>LOCKHART EUGENE E</code> : No information : All feature are 'NaN'.</li>
+<li>
+<code>THE TRAVEL AGENCY IN THE PARK</code> : Not a person</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="right"># of features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">poi</td>
+<td align="right">146</td>
+</tr>
+<tr>
+<td align="left">total_stock_value</td>
+<td align="right">126</td>
+</tr>
+<tr>
+<td align="left">total_payments</td>
+<td align="right">125</td>
+</tr>
+<tr>
+<td align="left">email_address</td>
+<td align="right">111</td>
+</tr>
+<tr>
+<td align="left">restricted_stock</td>
+<td align="right">110</td>
+</tr>
+<tr>
+<td align="left">exercised_stock_options</td>
+<td align="right">102</td>
+</tr>
+<tr>
+<td align="left">salary</td>
+<td align="right">95</td>
+</tr>
+<tr>
+<td align="left">expenses</td>
+<td align="right">95</td>
+</tr>
+<tr>
+<td align="left">other</td>
+<td align="right">93</td>
+</tr>
+<tr>
+<td align="left">to_messages</td>
+<td align="right">86</td>
+</tr>
+<tr>
+<td align="left">shared_receipt_with_poi</td>
+<td align="right">86</td>
+</tr>
+<tr>
+<td align="left">from_messages</td>
+<td align="right">86</td>
+</tr>
+<tr>
+<td align="left">from_this_person_to_poi</td>
+<td align="right">86</td>
+</tr>
+<tr>
+<td align="left">from_poi_to_this_person</td>
+<td align="right">86</td>
+</tr>
+<tr>
+<td align="left">bonus</td>
+<td align="right">82</td>
+</tr>
+<tr>
+<td align="left">long_term_incentive</td>
+<td align="right">66</td>
+</tr>
+<tr>
+<td align="left">deferred_income</td>
+<td align="right">49</td>
+</tr>
+<tr>
+<td align="left">deferral_payments</td>
+<td align="right">39</td>
+</tr>
+<tr>
+<td align="left">restricted_stock_deferred</td>
+<td align="right">18</td>
+</tr>
+<tr>
+<td align="left">director_fees</td>
+<td align="right">17</td>
+</tr>
+<tr>
+<td align="left">loan_advances</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="question-2" class="anchor" href="#question-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 2</h3>
+
+<p><strong>What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “properly scale features”, “intelligently select feature”]</strong></p>
+
+<p>With <code>SelectKBest</code> in <code>sklearn</code>, I investigate scores of features and I attached the table.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="right">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">exercised_stock_options</td>
+<td align="right">24.541175342601967</td>
+</tr>
+<tr>
+<td align="left">total_stock_value</td>
+<td align="right">23.904270290793864</td>
+</tr>
+<tr>
+<td align="left">bonus</td>
+<td align="right">20.524645181851792</td>
+</tr>
+<tr>
+<td align="left">salary</td>
+<td align="right">18.003739993113935</td>
+</tr>
+<tr>
+<td align="left">deferred_income</td>
+<td align="right">11.321486775141238</td>
+</tr>
+<tr>
+<td align="left">long_term_incentive</td>
+<td align="right">9.7721035384082544</td>
+</tr>
+<tr>
+<td align="left">restricted_stock</td>
+<td align="right">9.0790766616708698</td>
+</tr>
+<tr>
+<td align="left">total_payments</td>
+<td align="right">8.6727512066131069</td>
+</tr>
+<tr>
+<td align="left">shared_receipt_with_poi</td>
+<td align="right">8.4326354230246814</td>
+</tr>
+<tr>
+<td align="left">loan_advances</td>
+<td align="right">7.1253824688830685</td>
+</tr>
+<tr>
+<td align="left">expenses</td>
+<td align="right">5.9545442921972933</td>
+</tr>
+<tr>
+<td align="left">from_poi_to_this_person</td>
+<td align="right">5.1422191945069704</td>
+</tr>
+<tr>
+<td align="left">other</td>
+<td align="right">4.1288734042047182</td>
+</tr>
+<tr>
+<td align="left">from_this_person_to_poi</td>
+<td align="right">2.3388361146462624</td>
+</tr>
+<tr>
+<td align="left">director_fees</td>
+<td align="right">2.1453342495720547</td>
+</tr>
+<tr>
+<td align="left">to_messages</td>
+<td align="right">1.5942560277180795</td>
+</tr>
+<tr>
+<td align="left">deferral_payments</td>
+<td align="right">0.23026270434011689</td>
+</tr>
+<tr>
+<td align="left">from_messages</td>
+<td align="right">0.1753832041587958</td>
+</tr>
+<tr>
+<td align="left">restricted_stock_deferred</td>
+<td align="right">0.066023245366887376</td>
+</tr>
+</tbody>
+</table>
+
+<p>I did not choose features whose score is below 2.00, i.e., <code>to_messages</code>, <code>deferral_payments</code>, <code>from_messages</code>, <code>restricted_stock_deferred</code>.</p>
+
+<p>Also, I created 2 new features, <code>total_incentive</code> and <code>total_income</code>. The reason is that I think that the more someone get financial incentive, the higher probability that he/she could be POI. In the similar way, total income might be important factor to detect POI, because people related with fraud always are supposed to have huge incomes.</p>
+
+<ul>
+<li>
+<code>total_incentive</code> : <code>bonus</code> + <code>long_term_incentive</code>
+</li>
+<li>
+<code>total_income</code> : <code>salary</code> + <code>total_stock_value</code>
+</li>
+</ul>
+
+<p>As the following table shows, with increasing features upto 7, overall evaluating metrics are higher. However, after 7, recall metric suddenly drop, so I choose first 7 features for my classifier. To make this table, I used very simple <code>GaussianNB</code> classifer.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center"># of features</th>
+<th align="right">accuracy</th>
+<th align="right">precision</th>
+<th align="right">recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="right">0.82909</td>
+<td align="right">0.56608</td>
+<td align="right">0.25700</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="right">0.83962</td>
+<td align="right">0.46275</td>
+<td align="right">0.26400</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="right">0.84077</td>
+<td align="right">0.47559</td>
+<td align="right">0.34100</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="right">0.85185</td>
+<td align="right">0.52782</td>
+<td align="right">0.35100</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="right">0.85636</td>
+<td align="right">0.49639</td>
+<td align="right">0.37800</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="right">0.84979</td>
+<td align="right">0.46680</td>
+<td align="right">0.36200</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="right">0.85021</td>
+<td align="right">0.47004</td>
+<td align="right">0.38050</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="right">0.84040</td>
+<td align="right">0.37356</td>
+<td align="right">0.29100</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="right">0.83580</td>
+<td align="right">0.35719</td>
+<td align="right">0.28950</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th># of features</th>
+<th>accuracy</th>
+<th>precision</th>
+<th>recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top 7 features</td>
+<td>0.85021</td>
+<td>0.47004</td>
+<td>0.38050</td>
+</tr>
+<tr>
+<td>Top 7 features + 2 new features</td>
+<td>0.84671</td>
+<td>0.45866</td>
+<td>0.40500</td>
+</tr>
+</tbody>
+</table>
+
+<p>By adding 2 new features, there is trade-off. I got higher recall value, but accuracy and precision became lower than before adding 2 new features.</p>
+
+<p>Each feature has variety range of values, so I need to normalize them. I used <code>StandardScaler</code> for fianl analysis by adding it to <code>Pipeline</code>.</p>
+
+<p>When I used <code>DecisionTree</code>, its importance analysis is shown below.</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="right">importance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">total_payments</td>
+<td align="right">0.191</td>
+</tr>
+<tr>
+<td align="left">total_stock_value</td>
+<td align="right">0.167</td>
+</tr>
+<tr>
+<td align="left">expenses</td>
+<td align="right">0.140</td>
+</tr>
+<tr>
+<td align="left">other</td>
+<td align="right">0.139</td>
+</tr>
+<tr>
+<td align="left">from_messages</td>
+<td align="right">0.127</td>
+</tr>
+<tr>
+<td align="left">bonus</td>
+<td align="right">0.095</td>
+</tr>
+<tr>
+<td align="left">from_this_person_to_poi</td>
+<td align="right">0.076</td>
+</tr>
+<tr>
+<td align="left">salary</td>
+<td align="right">0.059</td>
+</tr>
+<tr>
+<td align="left">exercised_stock_options</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">deferred_income</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">long_term_incentive</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">restricted_stock</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">shared_receipt_with_poi</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">loan_advances</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">from_poi_to_this_person</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">director_fees</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">to_messages</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">deferral_payments</td>
+<td align="right">0.000</td>
+</tr>
+<tr>
+<td align="left">restricted_stock_deferred</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="question-3" class="anchor" href="#question-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 3</h3>
+
+<p><strong>What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]</strong></p>
+
+<p>I treid 4 algorithms to achieve maximum identification performance. The list of them shows below.</p>
+
+<table>
+<thead>
+<tr>
+<th align="right">algorithm</th>
+<th align="center">accuracy</th>
+<th align="center">precision</th>
+<th align="center">recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">DecisionTreeClassifier</td>
+<td align="center">0.81293</td>
+<td align="center">0.29205</td>
+<td align="center">0.28300</td>
+</tr>
+<tr>
+<td align="right">StandardScaler + LogisticRegression</td>
+<td align="center">0.85360</td>
+<td align="center">0.34295</td>
+<td align="center">0.10700</td>
+</tr>
+<tr>
+<td align="right">GaussianNB</td>
+<td align="center">0.81927</td>
+<td align="center">0.31280</td>
+<td align="center">0.29700</td>
+</tr>
+<tr>
+<td align="right">PCA + GaussianNB</td>
+<td align="center">0.84467</td>
+<td align="center">0.37705</td>
+<td align="center">0.25300</td>
+</tr>
+</tbody>
+</table>
+
+<p>DecisionTree, GaussianNB, and PCA are covered in the class. So I tried to apply and check their performance. It was suprising that the simple <code>GaussianNB</code> had great performance without any trials and erros. </p>
+
+<p>Logistic Regression is useful to binary classification(True/False) variables. This scheme is exactly what we want in this project. We have binary classification, POI or non-POI. So I ended up using this logistic regression algorithm.</p>
+
+<h3>
+<a id="question-4" class="anchor" href="#question-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 4</h3>
+
+<p><strong>What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well? How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier). [relevant rubric item: “tune the algorithm”]</strong></p>
+
+<p>Tuning parameters of an algorithm means the way to get the best algorithm performance with given dataset and model. If we don't do this process, we cannot get good performance and we might have worse performance than what we expected.</p>
+
+<p>In this project, I trid to tune several parameter sets with 2 algorithms(<code>LogisticRegression</code> and <code>PCA+GaussianNB</code>). <code>GaussianNB</code> had no parameter to be tuned, so I made a pipeline(<code>PCA</code> + <code>GaussianNB</code>) and tuned parameter of <code>PCA</code>.</p>
+
+<ul>
+<li>
+<code>LogisticRegression</code>
+
+<ul>
+<li>
+<code>penalty</code> : Used to specify the norm used in the penalization. The newton-cg and lbfgs solvers support only l2 penalties.</li>
+<li>
+<code>C</code> : Inverse of regularization strength; must be a positive float. Like in support vector machines, smaller values specify stronger regularization.</li>
+<li>
+<code>tol</code> : Tolerance for stopping criteria.</li>
+</ul>
+</li>
+<li>
+<code>PCA</code>
+
+<ul>
+<li>
+<code>n_components</code> : Number of components to keep.</li>
+</ul>
+</li>
+</ul>
+
+<p>Final parameter for me to be tuned. I can avoid tedious trails by using <code>GridSearchCV</code>.</p>
+
+<ul>
+<li>
+<code>LogisticRegression</code>
+
+<ul>
+<li>
+<code>penalty</code> : l2</li>
+<li>
+<code>C</code> : 1e-12</li>
+<li>
+<code>tol</code> : 1e-12</li>
+</ul>
+</li>
+<li>
+<code>PCA</code>
+
+<ul>
+<li>
+<code>n_components</code> : None</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="question-5" class="anchor" href="#question-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 5</h3>
+
+<p><strong>What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]</strong></p>
+
+<p>Validation is the way to confirm the robustness of a classifier with given dataset and model. The class mistake is the over-fitting case. When a classifier is over-fitted, it cannot provide good performance on test dataset. Because the classifier is too much over-fitted to training dataset. To avoid this problem, usually dataset is partitioned to three set, (train set, validation set, test set). However, it causes the number of samples to be drastically reduced. Therefore, the results can depend on a particular random choice for the pair of (train, validation) sets.</p>
+
+<p>One of solutions is cross-validation. In this process, dataset except test set is split into k smaller sets(k-folds). Then, we iterate the following procedures. </p>
+
+<ul>
+<li>A model is trained with (k-1) folds.</li>
+<li>the resulting model is validated on the remaining set(1 fold).</li>
+</ul>
+
+<p>By doing this procedures, we can have robust classifier. </p>
+
+<p>I used <code>StratifiedShuffleSplit</code>. <code>StratifiedShuffleSplit</code> is a merged version of <code>ShuffleSpllit</code> and <code>StratifiedKFold</code>. First, samples are shuffled, then, make k stratified folds as <code>StratifiedKFold</code> does. I used 10% of dataset as test set, and 1000 folds. This scheme is also used in <code>test_classifier()</code> in <code>tester.py</code>.</p>
+
+<h3>
+<a id="question-6" class="anchor" href="#question-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Question 6</h3>
+
+<p><strong>Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]</strong></p>
+
+<p>I selected precision and recall as evaluation metrics. The definitions are followed.</p>
+
+<ul>
+<li>precision : the number of true positives over the number of true positives plus the number of false positives.</li>
+<li>recall : the number of true positives over the number of true positives plus the number of false negatives.</li>
+</ul>
+
+<p>In short, high precision is equivalent to low false alram, that means an algorithm is precise. High recall means that high true positive, that is, an algorithm can identify POI as many as possibile.</p>
+
+<table>
+<thead>
+<tr>
+<th align="right">algorithm</th>
+<th align="center">accuracy</th>
+<th align="center">precision</th>
+<th align="center">recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">StandardScaler + LogisticRegression</td>
+<td align="center">0.85157</td>
+<td align="center">0.47869</td>
+<td align="center">0.43800</td>
+</tr>
+<tr>
+<td align="right">PCA + GaussianNB</td>
+<td align="center">0.84893</td>
+<td align="center">0.46169</td>
+<td align="center">0.34650</td>
+</tr>
+</tbody>
+</table>
+
+<p>I made my own score function, averaging precision and recall, then I passed it to <code>GridSearchCV</code>. So I could get the optimal parameter for the above 2 algorithms. </p>
+
+<pre><code>from sklearn.metrics import make_scorer, precision_recall_fscore_support
+# I want to classifier whose (precision, recall) are high at the same time.
+def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
+    p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
+                                                     labels=labels,
+                                                     pos_label=pos_label,
+                                                     average=average,
+                                                     sample_weight=sample_weight)
+    if p &lt; 0.3 or r &lt; 0.3: # To achieve better than 0.3 precision and recall
+        return 0.
+    return ( p + r ) / 2. # Normalize mix score
+</code></pre>
+
+<p>The result of <code>GaussianNB</code> was awesome, because it had quite good performance even though I did nothing. But <code>LogisticRegression</code> is the best performance among trials I did. It had high value of precision and recall. This evaluation result is more balanced and higher values.</p>
+
+<h2>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h2>
+
+<p>Final classifier is logistic regression since its performance is the best among many trials. In addition, its algorithm is specialized to binary classification. This is perfect story to identify fraud from Enron dataset. </p>
+
+<h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<ul>
+<li><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html</a></li>
+<li><a href="http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html">http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html</a></li>
+<li><a href="http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py">http://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html#example-model-selection-grid-search-text-feature-extraction-py</a></li>
+<li><a href="http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values">http://scikit-learn.org/stable/modules/model_evaluation.html#common-cases-predefined-values</a></li>
+<li><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html">http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html</a></li>
+<li><a href="http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html">http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html</a></li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/yoon-gu/dand-p4">Intro to Machine Learning</a> is maintained by <a href="https://github.com/yoon-gu">yoon-gu</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
