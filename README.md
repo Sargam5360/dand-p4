@@ -4,7 +4,7 @@ by Yoon-gu Hwang, December 27, 2015
 
 ## Instllation ##
 
-1. Install ``TensorFlow`` : (LINK)[https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md]
+1. Install ``TensorFlow`` : [LINK](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md)
     * ``sudo easy_install --upgrade six``
     * ``sudo easy_install --upgrade numpy``
     * ``sudo pip install --upgrade https://storage.googleapis.com/tensorflow/mac/tensorflow-0.6.0-py2-none-any.whl``
