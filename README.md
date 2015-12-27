@@ -192,17 +192,19 @@ In short, high precision is equivalent to low false alram, that means an algorit
 
 I made my own score function, averaging precision and recall, then I passed it to `GridSearchCV`. So I could get the optimal parameter for the above 2 algorithms. 
 
-	from sklearn.metrics import make_scorer, precision_recall_fscore_support
-	# I want to classifier whose (precision, recall) are high at the same time.
-	def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
-		p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
-		                                                 labels=labels,
-		                                                 pos_label=pos_label,
-		                                                 average=average,
-		                                                 sample_weight=sample_weight)
-		if p < 0.3 or r < 0.3: # To achieve better than 0.3 precision and recall
-			return 0.
-		return ( p + r ) / 2. # Normalize mix score
+```python
+from sklearn.metrics import make_scorer, precision_recall_fscore_support
+# I want to classifier whose (precision, recall) are high at the same time.
+def my_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None):
+	p, r, _, _ = precision_recall_fscore_support(y_true, y_pred,
+	                                                 labels=labels,
+	                                                 pos_label=pos_label,
+	                                                 average=average,
+	                                                 sample_weight=sample_weight)
+	if p < 0.3 or r < 0.3: # To achieve better than 0.3 precision and recall
+		return 0.
+	return ( p + r ) / 2. # Normalize mix score
+```
 
 The result of `GaussianNB` was awesome, because it had quite good performance even though I did nothing. But `LogisticRegression` is the best performance among trials I did. It had high value of precision and recall. This evaluation result is more balanced and higher values.
 
