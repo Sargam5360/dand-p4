@@ -1,6 +1,15 @@
-Identify Fraud from Enron Email
+Identify Fraud from Enron Email with TensorFlow
 ========================================================
-by Yoon-gu Hwang, November 15, 2015
+by Yoon-gu Hwang, December 27, 2015
+
+## Instllation ##
+
+#. Install ``TensorFlow`` : (LINK)[https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md]
+    * ``sudo easy_install --upgrade six``
+    * ``sudo easy_install --upgrade numpy``
+    * ``sudo pip install --upgrade https://storage.googleapis.com/tensorflow/mac/tensorflow-0.6.0-py2-none-any.whl``
+#. Install ``skflow``
+	* ``pip install git+git://github.com/google/skflow.git``
 
 ## Overview ##
 In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives. In this project, you will play detective, and put your new skills to use by building a person of interest identifier based on financial and email data made public as a result of the Enron scandal. To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which means individuals who were indicted, reached a settlement or plea deal with the government, or testified in exchange for prosecution immunity.
